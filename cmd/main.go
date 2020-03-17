@@ -10,15 +10,6 @@ type Element struct {
 	col int
 }
 
-/*
-func worker(row int, grid1 *grid.Grid, wg *sync.WaitGroup) {
-	defer wg.Done()
-	for col := 0; col < 10; col++ {
-		grid.CellNextState(row, col, grid1)
-	}	
-}
-*/
-
 func worker(id int, elementChan <-chan Element, done chan<- int, grid1 *grid.Grid) {
 	for element := range elementChan {
 		grid.CellNextState(element.row, element.col, grid1)
@@ -69,38 +60,5 @@ func main() {
 		}
 	}
 	fmt.Println(time.Since(t))
-
 	//grid.PrintStates(&grid1)
-
-
-
-
-
-	/*
-	t1 := time.Now()
-	for row := 0; row < 10; row++ {
-		for col := 0; col < 10; col++ {
-			grid.CellNextState(row, col, &grid1)
-		}
-	}
-	fmt.Println(time.Since(t1))
-	*/
-
-	//t0 := time.Now()
-
-	// Workers for each row
-	//jobs := make(chan int, 5)
-
-	/*
-	var wg sync.WaitGroup
-
-	for i := 0; i < 10; i++ {
-		wg.Add(1)
-		go worker(i, &grid1, &wg)
-	}
-	wg.Wait()
-	grid.PrintStates(&grid1)
-
-	fmt.Println(time.Since(t0))
-	*/	
 }
